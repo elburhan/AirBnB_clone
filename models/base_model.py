@@ -30,17 +30,17 @@ class BaseModel:
         Saves the information of the class to a file
         and updates the updated_at
         """
-        self.updated_at = str(datetime.now())
+        self.updated_at = datetime.now()
 
     def to_dict(self):
         """
         This method updates the __dict__ method with:
         __class__(str): classname
-        updateed_at(str)
+        updated_at(str)
         created_at(str)
         """
         dictionary = self.__dict__
-        dictionary[__class__] = __class__.__name__
+        dictionary["__class__"] = __class__.__name__
         dictionary["updated_at"] = str(self.updated_at)
         dictionary["created_at"] = str(self.created_at)
         return dictionary
