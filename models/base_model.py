@@ -4,7 +4,7 @@ The base model for all the other classes in the Project.
 """
 
 
-import datetime
+from datetime import datetime
 import uuid
 
 
@@ -13,20 +13,35 @@ class BaseModel:
     This is the class for managing all common attributes for the 
     project
     """
-    def __init__(self, id=None, updated_at=None, name=None):
+    def __init__(self):
         self.id  = str(uuid.uuid4())
-        self.created_at = str(datetime.datetime())
-        self.updated_at = updated_at
-        self.name = name
+        self.created_at = datetime.now()
+        self.updated_at = datetime.now()
+        self.name = None
 
     def __str__(self):
         """
         updates the __str__ function
         """
-        return (f"[{self.name}] ({self.id}) {self.__dict__}")
+        return (f"[{__class__.__name__}] ({self.id}) {self.__dict__}")
     
     def save(self):
-        self.updated_at = str(datetime.datetime())
+        """
+        Saves the information of the class to a file
+        and updates the updated_at
+        """
+        self.updated_at = str(datetime.now())
 
     def to_dict(self):
-        pass
+        """
+        This method updates the __dict__ method with:
+        __class__(str): classname
+        updateed_at(str)
+        created_at(str)
+        """
+        dictionary = self.__dict__
+        dictionary[__class__] = __class__.__name__
+        dictionary["updated_at"] = str(self.updated_at)
+        dictionary["created_at"] = str(self.created_at)
+        return dictionary
+
