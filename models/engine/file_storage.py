@@ -18,7 +18,8 @@ class FileStorage:
 
     def all(self):
         """
-        returns the __objects instance
+        returns the __objects dictionary that contains all
+            the instances of the class ... and previous saved.
         """
         return self.__objects
 
@@ -32,7 +33,7 @@ class FileStorage:
 
     def save(self):
         """
-        serializes __objects to the JSON file (path: __file_path)
+        serializes __objects dictionary to the JSON file (path: __file_path)
         """
         from models.base_model import BaseModel
         filename = self.__file_path
