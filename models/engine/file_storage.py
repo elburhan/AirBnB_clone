@@ -5,7 +5,7 @@ and deserializes the JSON file into class instance as necessary.
 """
 
 
-import JSON
+import json
 
 
 class FileStorage:
@@ -13,8 +13,8 @@ class FileStorage:
     Class to manage serialization and deserialization
     of the project data
     """
-    self.__file_path = file.json
-    self.__objects = {}
+    __file_path = "file.json"
+    __objects = {}
 
     def all(self):
         """
@@ -26,17 +26,22 @@ class FileStorage:
         """
         sets in __objects the obj with key <obj class name>.id
         """
-        classname = __class__.__name__
-        object_key = str(classname + "." + self.id)
+        classname = obj.__class__.__name__
+        object_key = str(classname + "." + obj.id)
         self.__objects[object_key] = obj
 
     def save(self):
         """
         serializes __objects to the JSON file (path: __file_path)
         """
+        from models.base_model import BaseModel
         filename = self.__file_path
-        with open(filename, "a", encoding="UTF-8") as file:
-            file.write(json.dumps(self.__objects))
+        with open(filename, "w", encoding="UTF-8") as file:
+            serialized_objects = {
+                key: value.__dict__ if isinstance(value, BaseModel) else value
+                for key, value in self.__objects.items()
+            }
+            json.dump(serialized_objects, file, default=str)
 
     def reload(self):
         """
@@ -47,7 +52,10 @@ class FileStorage:
         """
         filename = self.__file_path
         try:
-            with open(filename, "r") as file:
+            with open(filename, "r", encoding="UTF-8") as file:
+                if not file:
+                    return
                 self.__objects = json.load(file)
+                return self.__objects
         except FileNotFoundError:
             return
