@@ -22,20 +22,23 @@ class BaseModel:
         **kwargs: a dictionary of attibutes and value pairs to assign in the new
                     basemodel.
         """
-        self.id  = str(uuid.uuid4()) # create a unique id
-        self.created_at = datetime.now() # store the time created at
-        self.updated_at = datetime.now() # update the updated at time
-        storage.new(self) # creates a new object with key [<obj class name>.id]
         if kwargs:
             # if a dictionary was passed to the class <kwargs>
             # update the class dictionary <__dict__> with the newly created object dictionary
             # And the dictiknary passed <kwargs>
             for key, value in kwargs.items():
-                if key == "created_at" or key == "updated_at":
-                    # convert the datetime in the dictiknary from isoformat
-                    # back to the default when loaded
-                    key = datetime.fromisoformat(value)
-            self.__dict__.update(kwargs)
+                if key == "__class__":
+                    continue
+                if key in ["created_at", "updated_at"]:
+                    self.__dict__[key] = datetime.strptime(
+                        kwargs[key], "%Y-%m-%dT%H:%M:%S.%f")
+                else:
+                    self.__dict__[key] = kwargs[key]
+        else:
+            self.id  = str(uuid.uuid4()) # create a unique id
+            self.created_at = datetime.now() # store the time created at
+            self.updated_at = datetime.now() # update the updated at time
+            storage.new(self) # creates a new object with key [<obj class name>.id]
 
     def __str__(self):
         """
@@ -60,9 +63,11 @@ class BaseModel:
         created_at(isoformat)
         so it can be easily converted to json format
         """
-        dictionary = self.__dict__
-        dictionary["__class__"] = __class__.__name__
+        dictionary = self.__dict__.copy()
+        dictionary["__class__"] = type(self).__name__
+#        if type(dictionary["updated_at"]) not str:
         dictionary["updated_at"] = self.updated_at.isoformat()
+#        if type(dictionary["created_at"]) not str:
         dictionary["created_at"] = self.created_at.isoformat()
         return dictionary
 
