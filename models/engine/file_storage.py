@@ -28,7 +28,7 @@ class FileStorage:
         """
         sets in __objects the obj with key <obj class name>.id
         """
-        classname = obj.__class__.__name__
+        classname = type(obj).__name__
         object_key = str(classname + "." + obj.id)
         self.__objects[object_key] = obj
 
@@ -36,7 +36,6 @@ class FileStorage:
         """
         serializes __objects dictionary to the JSON file (path: __file_path)
         """
-        from models.base_model import BaseModel
         filename = self.__file_path
         with open(filename, "w", encoding="UTF-8") as file:
             serialized_objects = {key: value.to_dict() for key, value in self.__objects.items()}
@@ -45,7 +44,7 @@ class FileStorage:
     def classes(self):
         """Returns a dictionary of valid classes and their references"""
         from models.base_model import BaseModel
-#        from models.user import User
+        from models.user import User
 #        from models.state import State
 #        from models.city import City
 #        from models.amenity import Amenity
@@ -53,7 +52,7 @@ class FileStorage:
 #        from models.review import Review
 
         classes = {"BaseModel": BaseModel,
-                   #"User": User,
+                   "User": User,
                    #"State": State,
                    #"City": City,
                    #"Amenity": Amenity,
@@ -89,11 +88,11 @@ class FileStorage:
                      {"id": str,
                       "created_at": datetime.datetime,
                       "updated_at": datetime.datetime},
-#            "User":
-#                     {"email": str,
-#                      "password": str,
-#                      "first_name": str,
-#                      "last_name": str},
+            "User":
+                     {"email": str,
+                      "password": str,
+                      "first_name": str,
+                      "last_name": str},
 #            "State":
 #                     {"name": str},
 #            "City":

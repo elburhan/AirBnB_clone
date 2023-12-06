@@ -22,10 +22,10 @@ class BaseModel:
         **kwargs: a dictionary of attibutes and value pairs to assign in the new
                     basemodel.
         """
-        if kwargs:
-            # if a dictionary was passed to the class <kwargs>
+        if kwargs is not None and kwargs != {}:
+            # if a dictionary was passed to <kwargs>
             # update the class dictionary <__dict__> with the newly created object dictionary
-            # And the dictiknary passed <kwargs>
+            # And the dictionary passed <kwargs>
             for key, value in kwargs.items():
                 if key == "__class__":
                     continue
@@ -45,7 +45,7 @@ class BaseModel:
         updates the __str__ function to print
         [<class name>] (<self.id>) <self.__dict__>
         """
-        return (f"[{__class__.__name__}] ({self.id}) {self.__dict__}")
+        return (f"[{type(self).__name__}] ({self.id}) {self.__dict__}")
     
     def save(self):
         """
@@ -65,9 +65,7 @@ class BaseModel:
         """
         dictionary = self.__dict__.copy()
         dictionary["__class__"] = type(self).__name__
-#        if type(dictionary["updated_at"]) not str:
         dictionary["updated_at"] = self.updated_at.isoformat()
-#        if type(dictionary["created_at"]) not str:
         dictionary["created_at"] = self.created_at.isoformat()
         return dictionary
 
