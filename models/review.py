@@ -9,15 +9,6 @@ class Review(BaseModel):
     """
     Represents a Review for the HBnB project.
     """
-    def __init__(self, *args, **kwargs):
-        """
-        Initializes a new Review.
-
-        Args:
-            *args: Unused.
-            **kwargs: Key/value pairs of attributes.
-        """
-        super().__init__(*args, **kwargs)
-        self.place_id = ""  # empty string
-        self.user_id = ""  # empty string
-        self.text = ""  # empty string
+    place_id = ""  # empty string
+    user_id = ""  # empty string
+    text = ""  # empty string
