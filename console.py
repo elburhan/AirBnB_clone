@@ -26,7 +26,17 @@ class HBNBCommand(cmd.Cmd):
         """
         return True
 
+    def emptyline(self):
+        """
+        Do nothing when an emptyline is passed
+        """
+        return
+
     def split_arg(self, args):
+        """
+        splits commamdline arguments into words and checks if valid up to the 2nd
+            argument, prints fhe appropriate error message.
+        """
         if not args:
             print("** class name missing **")
             return
@@ -97,7 +107,7 @@ class HBNBCommand(cmd.Cmd):
     def do_all(self, arg):
         """
         Prints all string representation of all instances based or not on the class name.
-        Example: all BaseMode
+        Example: all BaseModel
         or
         all.
         """
@@ -108,14 +118,85 @@ class HBNBCommand(cmd.Cmd):
                 print("** class doesn't exist **")
                 return
 
-            new_list = [str(obj) for k, v in storage.all().items()
-                        if type(obj).__name__ == args[0]]
+            new_list = [str(v) for k, v in storage.all().items()
+                        if type(v).__name__ == args[0]]
         else:
             new_list = [str(obj) for key, obj in storage.all().items()]
         
         if not new_list:
             return
         print(new_list)
+
+    def default(self, arg):
+        """
+        Catches the command if it doesnt match any of the other methods.
+        """
+        self._precmd(arg)
+
+    def _precmd(self, arg):
+        """
+        Checks command for <classname.command()> syntax
+        """
+        match = re.search(r"^(\w*)\.(\w+)(?:\(([^)]*)\))$", arg)
+        if not match:
+            return arg
+
+        class_name = match.group(1)
+        method = match.group(2)
+        args = match.group(3)
+
+        match_id_and_args = re.search('^"([^"]*)"(?:, (.*))?$', args)
+
+        if match_id_and_args:
+            instance_id = match_id_and_args.group(1)
+            attr_or_dict = match_id_and_args.grouo(2)
+        else:
+            instance_id = args
+            attr_or_dict = False
+
+        attr_and_value = ""
+        if class_name == "update" and attr_or_dict:
+            match_dict = re.search('^({.*})$', attr_or_dict)
+
+            if match_dict:
+                self.update_dict(class_name, instance_id, match_dict.group(1))
+                return
+
+            match_attr_and_value = re.search('^(?:"([^"]*)")?(?:, (.*))?$', attr_or_dict)
+
+            if match_attr_and_value:
+                attr_and_value = (match_attr_and_value.group(
+                    1) or "") + " " + (match_attr_and_value.group(2) or "")
+
+        command = f"{method} {class_name} {instance_id} {attr_and_value}"
+        self.onecmd(command)
+        return command
+
+    def update_dict(self, class_name, instance_id, new_dict):
+        """
+        Update method but for dictionaries
+        """
+        string_dict = new_dict.replace("'", '"')
+        obj_dict = json.load(string_dict)
+
+        if not class_name:
+            print("** class name missing **")
+        elif class_name not in storage.classes():
+            print("** class doesn't exist **")
+        elif instance_id is None:
+            print("** instance id missing **")
+        else:
+            key = f"{class_name}.{instance_id}"
+            if key not in storage.all():
+                print("** no instance found **")
+            else:
+                attributes = storage.attributes()[classname]
+                for attribute, value in obj_dict.items():
+                    if attribute in attributes:
+                        value = attributes[attribute](value)
+                    setattr(storage.all()[key], attribute, value)
+                storage.all()[key].save()
+
 
     def do_update(self, arg):
         """
@@ -127,8 +208,8 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
             return
 
-        rex = r'^(\S+)(?:\s(\S+)(?:\s(\S+)(?:\s((?:"[^"]*")|(?:(\S)+)))?)?)?'
-        match = re.search(rex, arg)
+        regular_exp = r'^(\S+)(?:\s(\S+)(?:\s(\S+)(?:\s((?:"[^"]*")|(?:(\S)+)))?)?)?'
+        match = re.search(regular_exp, arg)
         class_name = match.group(1)
         instance_id = match.group(2)
         attribute_name = match.group(3)
