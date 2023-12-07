@@ -3,10 +3,9 @@
 The base model for all the other classes in the Project.
 """
 
-
 from datetime import datetime
 import uuid
-from . import storage
+from models import storage  # Updated import statement
 
 
 class BaseModel:
