@@ -48,17 +48,6 @@ class FileStorage:
 
     def classes(self):
         """Returns a dictionary of valid classes and their references"""
-<<<<<<< HEAD
-        classes = {
-            "BaseModel": BaseModel,
-            "User": User,
-            "State": State,
-            "City": City,
-            "Amenity": Amenity,
-            "Place": Place,
-            "Review": Review
-        }
-=======
         from models.base_model import BaseModel
         from models.user import User
         from models.state import State
@@ -75,7 +64,6 @@ class FileStorage:
                    "Place": Place,
                    "Review": Review
                    }
->>>>>>> main
         return classes
 
     def reload(self):
