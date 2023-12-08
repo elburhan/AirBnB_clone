@@ -15,7 +15,7 @@ class BaseModel:
     """
     def __init__(self, id=None, updated_at=None, name=None):
         self.id  = str(uuid.uuid4())
-        self.created_at = str(datetime.datetime())
+        self.created_at = str(datetime.datetime)
         self.updated_at = updated_at
         self.name = name
 
@@ -26,7 +26,7 @@ class BaseModel:
         return (f"[{self.name}] ({self.id}) {self.__dict__}")
     
     def save(self):
-        self.updated_at = str(datetime.datetime())
+        self.updated_at = str(datetime.datetime)
 
     def to_dict(self):
         pass
