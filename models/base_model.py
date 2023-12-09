@@ -5,7 +5,7 @@ The base model for all the other classes in the Project.
 
 from datetime import datetime
 import uuid
-from models import storage  # Updated import statement
+from models import storage
 
 
 class BaseModel:

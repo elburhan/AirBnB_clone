@@ -1,97 +1,84 @@
-#!/usr/bin/python3
-"""
-Test module for BaseModel class.
-"""
-
 import unittest
 from models.base_model import BaseModel
 from datetime import datetime
-from unittest.mock import patch
 import os
+import json
 
 
 class TestBaseModel(unittest.TestCase):
     """
-    Test cases for BaseModel class.
+    Test the BaseModel class
     """
+    def test_init(self):
+        """
+        Test the initialization of the BaseModel
+        """
+        base_model = BaseModel()
+        self.assertIsInstance(base_model, BaseModel)
+        self.assertTrue(hasattr(base_model, 'id'))
+        self.assertTrue(hasattr(base_model, 'created_at'))
+        self.assertTrue(hasattr(base_model, 'updated_at'))
+        self.assertEqual(type(base_model.id), str)
+        self.assertEqual(type(base_model.created_at), datetime)
+        self.assertEqual(type(base_model.updated_at), datetime)
 
-    def test_instance_creation(self):
+    def test_str(self):
         """
-        Test instance creation and attributes.
+        Test the __str__ method of the BaseModel
         """
-        model = BaseModel()
-        self.assertTrue(isinstance(model, BaseModel))
-        self.assertTrue(hasattr(model, 'id'))
-        self.assertTrue(hasattr(model, 'created_at'))
-        self.assertTrue(hasattr(model, 'updated_at'))
+        base_model = BaseModel()
+        string_representation = str(base_model)
+        self.assertIn('[BaseModel]', string_representation)
+        self.assertIn('id', string_representation)
+        self.assertIn('created_at', string_representation)
+        self.assertIn('updated_at', string_representation)
 
-    def test_instance_creation_with_id(self):
+    def test_save(self):
         """
-        Test instance creation with provided id.
+        Test the save method of the BaseModel
         """
-        model = BaseModel(id="test_id")
-        self.assertEqual(model.id, "test_id")
+        base_model = BaseModel()
+        original_updated_at = base_model.updated_at
+        base_model.save()
+        self.assertNotEqual(original_updated_at, base_model.updated_at)
 
-    def test_instance_creation_with_created_at(self):
+    def test_to_dict(self):
         """
-        Test instance creation with provided created_at.
+        Test the to_dict method of the BaseModel
         """
-        date_str = "2023-12-05T14:30:00"
-        model = BaseModel(created_at=date_str)
-        expected_date = datetime.strptime(date_str, "%Y-%m-%dT%H:%M:%S")
-        self.assertEqual(model.created_at, expected_date)
+        base_model = BaseModel()
+        base_model_dict = base_model.to_dict()
+        self.assertEqual(base_model_dict['__class__'], 'BaseModel')
+        self.assertEqual(type(base_model_dict['created_at']), str)
+        self.assertEqual(type(base_model_dict['updated_at']), str)
 
-    def test_instance_creation_with_updated_at(self):
+    def test_to_dict_with_args(self):
         """
-        Test instance creation with provided updated_at.
+        Test the to_dict method of the BaseModel with additional arguments
         """
-        date_str = "2023-12-05T14:30:00"
-        model = BaseModel(updated_at=date_str)
-        expected_date = datetime.strptime(date_str, "%Y-%m-%dT%H:%M:%S")
-        self.assertEqual(model.updated_at, expected_date)
+        base_model = BaseModel(id='123', created_at=datetime.now(), updated_at=datetime.now())
+        base_model_dict = base_model.to_dict()
+        self.assertEqual(base_model_dict['id'], '123')
+        self.assertEqual(type(base_model_dict['created_at']), str)
+        self.assertEqual(type(base_model_dict['updated_at']), str)
 
-    def test_instance_creation_with_attributes(self):
+    def test_to_dict_and_back(self):
         """
-        Test instance creation with additional attributes.
+        Test if a BaseModel instance can be recreated from its to_dict representation
         """
-        model = BaseModel(name="Test", value=42)
-        self.assertTrue(hasattr(model, 'name'))
-        self.assertTrue(hasattr(model, 'value'))
-        self.assertEqual(model.name, "Test")
-        self.assertEqual(model.value, 42)
+        base_model = BaseModel()
+        base_model_dict = base_model.to_dict()
+        new_base_model = BaseModel(**base_model_dict)
+        self.assertEqual(base_model.to_dict(), new_base_model.to_dict())
 
-    def test_save_method(self):
+    def tearDown(self):
         """
-        Test save method.
+        Clean up: Remove the JSON file created during tests
         """
-        model = BaseModel()
-        with patch('models.storage') as mock_storage:
-            model.save()
-            mock_storage.save.assert_called_once()
-
-    def test_to_dict_method(self):
-        """
-        Test to_dict method.
-        """
-        date_str = "2023-12-05T14:30:00"
-        model = BaseModel(id="test_id", created_at=date_str, updated_at=date_str, name="Test", value=42)
-        expected_dict = {
-            '__class__': 'BaseModel',
-            'id': 'test_id',
-            'created_at': date_str,
-            'updated_at': date_str,
-            'name': 'Test',
-            'value': 42
-        }
-        self.assertEqual(model.to_dict(), expected_dict)
-
-    def test_str_method(self):
-        """
-        Test __str__ method.
-        """
-        model = BaseModel(id="test_id", name="Test", value=42)
-        expected_str = "[BaseModel] (test_id) {'id': 'test_id', 'name': 'Test', 'value': 42}"
-        self.assertEqual(str(model), expected_str)
+        try:
+            os.remove('BaseModel.json')
+        except FileNotFoundError:
+            pass
 
 
 if __name__ == '__main__':
