@@ -42,7 +42,7 @@ class BaseModel:
 
     def __str__(self):
         """
-        updates the __str__ function to print
+        updates the __str__ function to print in this format
         [<class name>] (<self.id>) <self.__dict__>
         """
         return (f"[{type(self).__name__}] ({self.id}) {self.__dict__}")
