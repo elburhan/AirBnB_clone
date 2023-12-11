@@ -8,6 +8,7 @@ This module contains the entry point of the command interprete
 import cmd
 from models.base_model import BaseModel
 from models import storage
+import json
 import re
 
 
@@ -30,7 +31,7 @@ class HBNBCommand(cmd.Cmd):
         """
         Do nothing when an emptyline is passed
         """
-        return
+        pass
 
     def split_arg(self, args):
         """
@@ -150,7 +151,7 @@ class HBNBCommand(cmd.Cmd):
 
         if match_id_and_args:
             instance_id = match_id_and_args.group(1)
-            attr_or_dict = match_id_and_args.grouo(2)
+            attr_or_dict = match_id_and_args.group(2)
         else:
             instance_id = args
             attr_or_dict = False
@@ -191,7 +192,7 @@ class HBNBCommand(cmd.Cmd):
             if key not in storage.all():
                 print("** no instance found **")
             else:
-                attributes = storage.attributes()[classname]
+                attributes = storage.attributes()[class_name]
                 for attribute, value in obj_dict.items():
                     if attribute in attributes:
                         value = attributes[attribute](value)
