@@ -70,6 +70,21 @@ class HBNBCommand(cmd.Cmd):
         else:
             print("** class doesn't exist **")
 
+    def do_count(self, arg):
+        """
+        Retrieves the number of instances of a class
+        <class name>.count().
+        """
+        args = arg.split()
+        if args[0] not in storage.classes():
+            print("** class doesn't exist **")
+            return
+        instances = [str(v) for k, v in storage.all().items()
+                        if type(v).__name__ == args[0]]
+        print(len(instances))
+
+
+
     def do_show(self, arg):
         """
         Prints the string representation of an instance based on the class name and id.
