@@ -1,13 +1,18 @@
 #!/usr/bin/python3
 """
-This module serializes the python instance into JSON file
-and deserializes the JSON file into class instance as necessary.
+This module serializes the Python instance into a JSON file
+and deserializes the JSON file into class instances as necessary.
 """
-
 
 import json
 import datetime
-
+from models.base_model import BaseModel
+from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 
 class FileStorage:
     """
@@ -74,8 +79,7 @@ class FileStorage:
                 if not file:
                     return
                 obj_dict = json.load(file)
-                obj_dict = {k: self.classes()[v["__class__"]](**v)
-                            for k, v in obj_dict.items()}
+                obj_dict = {k: self.classes()[v["__class__"]](**v) for k, v in obj_dict.items()}
                 self.__objects = obj_dict
                 return self.__objects
         except:

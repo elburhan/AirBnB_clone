@@ -9,5 +9,7 @@ class City(BaseModel):
     """
     Represents a City for the HBnB project.
     """
+
     state_id = ""  # empty string
     name = ""  # empty string
+
