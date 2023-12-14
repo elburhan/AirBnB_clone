@@ -182,8 +182,8 @@ class HBNBCommand(cmd.Cmd):
             mat_a_v = re.search('^(?:"([^"]*)")?(?:, (.*))?$', attr_or_dict)
 
             if mat_a_v:
-                attr_and_value = (match_attr_and_v.group(
-                    1) or "") + " " + (match_attr_and_value.group(2) or "")
+                attr_and_value = (mat_a_v.group(
+                    1) or "") + " " + (mat_a_v.group(2) or "")
 
         command = f"{method} {class_name} {instance_id} {attr_and_value}"
         self.onecmd(command)
