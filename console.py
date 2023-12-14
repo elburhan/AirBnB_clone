@@ -179,10 +179,10 @@ class HBNBCommand(cmd.Cmd):
                 self.update_dict(class_name, instance_id, match_dict.group(1))
                 return
 
-            match_attr_and_value = re.search('^(?:"([^"]*)")?(?:, (.*))?$', attr_or_dict)
+            mat_a_v = re.search('^(?:"([^"]*)")?(?:, (.*))?$', attr_or_dict)
 
-            if match_attr_and_value:
-                attr_and_value = (match_attr_and_value.group(
+            if mat_a_v:
+                attr_and_value = (match_attr_and_v.group(
                     1) or "") + " " + (match_attr_and_value.group(2) or "")
 
         command = f"{method} {class_name} {instance_id} {attr_and_value}"
@@ -214,7 +214,6 @@ class HBNBCommand(cmd.Cmd):
                     setattr(storage.all()[key], attribute, value)
                 storage.all()[key].save()
 
-
     def do_update(self, arg):
         """
         Updates an instance based on the class name and id by adding
@@ -225,8 +224,8 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
             return
 
-        regular_exp = r'^(\S+)(?:\s(\S+)(?:\s(\S+)(?:\s((?:"[^"]*")|(?:(\S)+)))?)?)?'
-        match = re.search(regular_exp, arg)
+        regx = r'^(\S+)(?:\s(\S+)(?:\s(\S+)(?:\s((?:"[^"]*")|(?:(\S)+)))?)?)?'
+        match = re.search(regx, arg)
         class_name = match.group(1)
         instance_id = match.group(2)
         attribute_name = match.group(3)
@@ -256,7 +255,8 @@ class HBNBCommand(cmd.Cmd):
                     attribute_value = attribute_value.replace('"', '')
                 instances = storage.attributes()[class_name]
                 if attribute_name in instances:
-                    attribute_value = instances[attribute_name](attribute_value)
+                    attribute_value = instances[attribute_name]
+                    (attribute_value)
                 elif cast:
                     try:
                         attribute_value = cast(attribute_value)
@@ -264,8 +264,6 @@ class HBNBCommand(cmd.Cmd):
                         pass
                 setattr(storage.all()[key], attribute_name, attribute_value)
                 storage.all()[key].save()
-
-
 
 
 if __name__ == '__main__':
