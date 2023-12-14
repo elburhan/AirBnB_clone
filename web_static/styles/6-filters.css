@@ -49,3 +49,26 @@
     margin: 0 0 0 30px;
     text-align: left;
 }
+
+.popover {
+    display: none;
+    background-color: #FAFAFA;
+    border: 1px #DDDDDD solid;
+    border-radius: 4px;
+    text-align: left;
+    position: relative;
+    z-index: -1;
+}
+
+.popover h2 {
+    font-size: 16px;
+}
+li {
+    list-style-type: none;
+    margin-block: 10px;
+}
+
+.locations:hover .popover,
+.amenities:hover .popover {
+    display: block;
+}
