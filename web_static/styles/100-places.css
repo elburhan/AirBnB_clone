@@ -1,0 +1,138 @@
+.places {
+    text-align: center;
+}
+.places h1 {
+    font-size: 30px;
+    text-align: left;
+}
+
+.places article {
+    width: 390px;
+    padding: 20px;
+    margin: 20px;
+    border: #FF5A5F 1px solid;
+    border-radius: 4px;
+    display: inline-block;
+    min-height: 250px;
+    vertical-align: top;
+    position: relative;
+}
+
+.places article h2 {
+    font-size: 30px;
+    margin: 0 0 40px;
+}
+
+/* section withe the circle price tag. */
+div.price_by_night {
+    color: #FF5A5F;
+    border: #FF5A5F 4px solid;
+    border-radius: 100%;
+    min-width: 60px;
+    height: 60px;
+    font-size: 30px;
+    /* float: right; */
+    /* position: relative; */
+    line-height: 60px;
+    padding: 3px;
+    position: absolute;
+    top: 8px;
+    right: 15px;
+    /* display: inline-block; */
+}
+
+div.information {
+    height: 80px;
+    border-block: #DDDDDD 1px solid;
+    display: inline-block;
+    width: 100%;
+}
+
+div.max_guest,
+div.number_rooms,
+div.number_bathrooms {
+    line-height: 140px;
+    width: 100px;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: 50% 5px;
+    display: inline-block;
+}
+
+.max_guest {
+    background-image: url(../images/icon_group.png);
+}
+div.number_rooms {
+    background-image: url(../images/icon_bed.png);
+}
+div.number_bathrooms {
+    background-image: url(../images/icon_bath.png);
+}
+
+div.user,
+div.description {
+  text-align: left;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+div.user span {
+    font-weight: 800;
+}
+
+
+/* article amenities stling. */
+article div.amenities {
+    margin-top: 40px;
+    width: 100%;
+    text-align: left;
+}
+
+article div.amenities h2 {
+    font-size: 16px;
+    border-bottom: #DDDDDD 1px solid;
+}
+
+article ul {
+    padding: 0;
+}
+li.pets,
+li.wifi,
+li.tv {
+    width: 100px;
+    height: 100%;
+    line-height: 45px;
+    display: block;
+    background-repeat: no-repeat;
+    background-position: absolute;
+    padding-left: 20%;
+}
+
+li.pets {
+    background-image: url(../images/icon_pets.png);
+}
+li.tv {
+    background-image: url(../images/icon_tv.png);
+}
+li.wifi {
+    background-image: url(../images/icon_wifi.png);
+}
+
+/* styling for the article reveiws */
+
+article div.reviews {
+    margin-top: 40px;
+    width: 100%;
+    text-align: left;
+}
+article div.reviews h2 {
+    font-size: 16px;
+    border-bottom: #DDDDDD 1px solid;
+}
+
+article div.reviews h3 {
+    font-size: 14px;
+}
+article div.reviews p {
+    font-size: 12px;
+}
