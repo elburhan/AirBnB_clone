@@ -1,0 +1,18 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    color: #484848;
+    font-family: Circular,"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+.container {
+    max-width: 1000px;
+    margin: 30px auto;
+    text-align: center;
+}
+
+@media screen and (max-width: 1060px) {
+    .container {
+        width: 80%;
+    }
+}

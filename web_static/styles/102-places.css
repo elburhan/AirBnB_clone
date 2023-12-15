@@ -137,3 +137,15 @@ article div.reviews h3 {
 article div.reviews p {
     font-size: 12px;
 }
+
+@media screen and (max-width: 500px) {
+    .places article h2 {
+        /* margin: 0; */
+        text-align: left;
+    }
+    div.information {
+        display: flex;
+        justify-content: space-between;
+    }
+
+}

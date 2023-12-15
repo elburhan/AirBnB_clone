@@ -31,14 +31,11 @@ div.price_by_night {
     min-width: 60px;
     height: 60px;
     font-size: 30px;
-    /* float: right; */
-    /* position: relative; */
     line-height: 60px;
     padding: 3px;
     position: absolute;
     top: 8px;
     right: 15px;
-    /* display: inline-block; */
 }
 
 div.information {

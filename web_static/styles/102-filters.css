@@ -76,3 +76,20 @@ li {
 .amenities:hover .popover {
     display: block;
 }
+
+@media screen and (max-width: 1000px) {
+    section.filters div {
+        display: none;
+    }
+
+    section.filters {
+        border-radius: 10px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .filters button {
+        width: 80px;
+    }
+    
+}
