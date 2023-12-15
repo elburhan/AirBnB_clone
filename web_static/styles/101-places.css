@@ -1,12 +1,17 @@
 .places {
     text-align: center;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
 }
 .places h1 {
     font-size: 30px;
+    width: 100%;
     text-align: left;
 }
 
 .places article {
+    align-self: center;
     width: 390px;
     padding: 20px;
     margin: 20px;
@@ -31,14 +36,11 @@ div.price_by_night {
     min-width: 60px;
     height: 60px;
     font-size: 30px;
-    /* float: right; */
-    /* position: relative; */
     line-height: 60px;
     padding: 3px;
     position: absolute;
     top: 8px;
     right: 15px;
-    /* display: inline-block; */
 }
 
 div.information {
@@ -81,7 +83,7 @@ div.user span {
 }
 
 
-/* article amenities stling. */
+/* article amenities styling. */
 article div.amenities {
     margin-top: 40px;
     width: 100%;
@@ -104,6 +106,7 @@ li.tv {
     line-height: 45px;
     display: block;
     background-repeat: no-repeat;
+    /* background-position: absolute; */
     padding-left: 20%;
 }
 
